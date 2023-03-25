@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <form id="language_translator" action="/post_data" method="post">
+
+      <textarea id="value" name="value" cols="50" rows="10" style="margin-bottom: -20px;"></textarea>
+      <select id="select_lang" name="select_lang">Select Language
+      <option value="hi">Hindi</option>
+      <option value="bn">Bangali</option>
+      <option value="mr">Marathi</option>
+      <option value="ja">Japanese</option>
+      </select>
+      <input type="submit" id="submit" value="Convert"style="
+        margin-bottom: -90px;
+    float: right;
+" >
+  </form>
+  <textarea id="converted_value" cols="50" rows="10" style="margin-top: -145px;margin-left: 480px;"></textarea>
+
+  <script>
+    const converted_value = document.getElementById("converted_value");
+    language_translator.onsubmit = async (e) => {
+      e.preventDefault();
+      let res = await fetch("/post_data", {
+        method: "POST",
+        body: new FormData(language_translator),
+      });
+
+      if (res.ok) {
+          console.log('Res>>>>>',11111111);
+          let result = await res.text();
+          console.log('Res>>>>>',result);
+        converted_value.innerHTML = result;
+      } else {
+        converted_value.innerHTML = 'Response error: ${res.status}';
+      };
+    }
+  </script>
+</body>
+</html>
